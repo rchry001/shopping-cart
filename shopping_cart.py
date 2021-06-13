@@ -34,20 +34,29 @@ products = [
 # Step 3: Set up matching product function
 
 total_price = 0
+user_choices = []
 
 while True:
     user_choice = input("Please enter a product identifier or enter DONE if finished: ")
     if user_choice == "DONE":
         break
     else:
-        matching_products = [p for p in products if str(p["id"]) == user_choice]
-        matching_product = matching_products[0]
-        total_price = total_price + matching_product["price"]
+        #matching_products = [p for p in products if str(p["id"]) == user_choice]
+        #matching_product = matching_products[0]
+        #total_price = total_price + matching_product["price"]
         #print(matching_product)
         #print(type(matching_product))
-        print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
+        #print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
+        user_choices.append(user_choice)
 
 
+#print(user_choices)
+
+for user_choice in user_choices:
+    matching_products = [p for p in products if str(p["id"]) == user_choice]
+    matching_product = matching_products[0]
+    total_price = total_price + matching_product["price"]
+    print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
 
 
 print("TOTAL PRICE: " + str(total_price))
