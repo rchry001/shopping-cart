@@ -33,6 +33,8 @@ products = [
 #         input is under 1 or greater than 20
 # Step 3: Set up matching product function
 
+total_price = 0
+
 while True:
     user_choice = input("Please enter a product identifier or enter DONE if finished: ")
     if user_choice == "DONE":
@@ -40,11 +42,15 @@ while True:
     else:
         matching_products = [p for p in products if str(p["id"]) == user_choice]
         matching_product = matching_products[0]
-    #print(matching_product)
-    #print(type(matching_product))
+        total_price = total_price + matching_product["price"]
+        #print(matching_product)
+        #print(type(matching_product))
         print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
 
 
+
+
+print("TOTAL PRICE: " + str(total_price))
 
 def to_usd(my_price):
     """
