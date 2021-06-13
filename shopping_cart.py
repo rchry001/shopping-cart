@@ -1,5 +1,7 @@
 # shopping_cart.py
 
+
+
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -39,4 +41,30 @@ def to_usd(my_price):
 
 # TODO: write some Python code here to produce the desired output
 
-print(products)
+#print(products)
+
+# Step 1: creating a user input option
+
+user_choice = input("Please enter a product identifier or enter DONE if finished:")
+print(user_choice)
+print(type(user_choice))
+
+# Step 2: entering validation of product identifier by triggering an error if
+#         input is under 1 or greater than 20
+
+user_choice = int(user_choice)
+if user_choice > 20:
+    print("Oops - this product is not found...Please double check product ID and try again!")
+if user_choice < 1: 
+    print("Oops - this product is not found...Please double check product ID and try again!")
+
+
+# Step 3: Set up matching product function
+
+matching_products = [p for p in products if p["id"] == user_choice]
+matching_product = matching_products[0]
+print(matching_product)
+print(type(matching_product))
+
+print("SECLECTED PRODUCT: "+ matching_product["name"] + str(matching_product["price"]))
+
