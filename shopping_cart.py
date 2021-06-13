@@ -47,7 +47,7 @@ def to_usd(my_price):
 
 user_choice = input("Please enter a product identifier or enter DONE if finished:")
 print(user_choice)
-print(type(user_choice))
+#print(type(user_choice))
 
 # Step 2: entering validation of product identifier by triggering an error if
 #         input is under 1 or greater than 20
@@ -63,8 +63,8 @@ if user_choice < 1:
 
 matching_products = [p for p in products if p["id"] == user_choice]
 matching_product = matching_products[0]
-print(matching_product)
-print(type(matching_product))
+#print(matching_product)
+#print(type(matching_product))
 
-print("SECLECTED PRODUCT: "+ matching_product["name"] + str(matching_product["price"]))
+print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
 
