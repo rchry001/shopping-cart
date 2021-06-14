@@ -1,6 +1,33 @@
 # shopping_cart.py
 
+import datetime
+currentTime = datetime.datetime.now()
 
+import os
+
+import dotenv
+
+dotenv.load_dotenv()
+TAX_RATE = os.getenv("TAX_RATE")
+
+def to_usd(my_price):
+    """
+    Converts a numeric value to usd-formatted string, for printing and display purposes.
+
+    Param: my_price (int or float) like 4000.444444
+
+    Example: to_usd(4000.444444)
+
+    Returns: $4,000.44
+    """
+    return f"${my_price:,.2f}" #> $12,000.71
+
+print("--------------------------------")
+print("Welcome to Prime Health Foods")
+print("WWW.PRIME-HEALTH.COM")
+print("--------------------------------")
+print("Checkout at:", currentTime)
+print("--------------------------------")
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -29,7 +56,7 @@ products = [
 
 # Step 1: creating a user input option
 
-# Step 2: entering validation of product identifier by triggering an error if
+# Step 2: NEEEED TO INCLUDE THIS VALIDATION entering validation of product identifier by triggering an error if
 #         input is under 1 or greater than 20
 # Step 3: Set up matching product function
 
@@ -49,7 +76,7 @@ while True:
         #print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
         user_choices.append(user_choice)
 
-
+print("--------------------------------")
 #print(user_choices)
 
 for user_choice in user_choices:
@@ -59,19 +86,12 @@ for user_choice in user_choices:
     print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
 
 
-print("TOTAL PRICE: " + str(total_price))
-
-def to_usd(my_price):
-    """
-    Converts a numeric value to usd-formatted string, for printing and display purposes.
-
-    Param: my_price (int or float) like 4000.444444
-
-    Example: to_usd(4000.444444)
-
-    Returns: $4,000.44
-    """
-    return f"${my_price:,.2f}" #> $12,000.71
-
-
-# TODO: write some Python code here to produce the desired output
+#print("TOTAL PRICE: " + (str(total_price)))
+print("--------------------------------")
+print("SUBTOTAL: " + to_usd((total_price)))
+TAX = TAX_RATE
+print("TAX:", TAX) # Need an approach to multiply tax rate by total price
+print("TOTAL:") # Need an approach to add TAX amount and subtotal together
+print("--------------------------------")
+print("SEE YOU AGAIN SOON!! STAY HEALTHY, STAY PRIMED!!")
+print("--------------------------------")
