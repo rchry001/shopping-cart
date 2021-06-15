@@ -47,13 +47,6 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-#print(products)
-
-# Step 1: creating a user input option
-
-# Step 2: NEEEED TO INCLUDE THIS VALIDATION entering validation of product identifier by triggering an error if
-#         input is under 1 or greater than 20
-# Step 3: Set up matching product function
 
 total_price =0
 user_choices = []
@@ -65,13 +58,12 @@ while True:
         else:
             #product_exists = any(product["id"] == user_choice for product in products)
             #print("This product exists",product_exists)
-            matching_products = [p for p in products if str(p["id"]) == user_choice]
-            matching_product = matching_products[0]
-            if matching_product["id"] == user_choice:
+            #unmatched_products = [p for p in products if str(p["id"]) != user_choice]
+            if float(user_choice) not in range(0,21) or user_choice == "0":
                 print("This product does not exist...Please double check ID")
                 continue
-            #total_price = total_price + matching_product["price"]
-            #print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + to_usd(matching_product["price"]))
+            matching_products = [p for p in products if str(p["id"]) == user_choice]
+            matching_product = matching_products[0]
             user_choices.append(user_choice)
 
 print("--------------------------------")
