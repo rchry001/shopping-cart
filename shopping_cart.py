@@ -22,12 +22,7 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
-print("--------------------------------")
-print("Welcome to Prime Health Foods")
-print("WWW.PRIME-HEALTH.COM")
-print("--------------------------------")
-print("Checkout at:", currentTime)
-print("--------------------------------")
+
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -60,38 +55,58 @@ products = [
 #         input is under 1 or greater than 20
 # Step 3: Set up matching product function
 
-total_price = 0
+total_price =0
 user_choices = []
 
 while True:
-    user_choice = input("Please enter a product identifier or enter DONE if finished: ")
-    if user_choice == "DONE":
-        break
-    else:
-        #matching_products = [p for p in products if str(p["id"]) == user_choice]
-        #matching_product = matching_products[0]
-        #total_price = total_price + matching_product["price"]
-        #print(matching_product)
-        #print(type(matching_product))
-        #print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
-        user_choices.append(user_choice)
+        user_choice = input("Please enter a product identifier or enter DONE if finished: ")
+        if user_choice == "DONE":
+            break
+        else:
+            #product_exists = any(product["id"] == user_choice for product in products)
+            #print("This product exists",product_exists)
+            matching_products = [p for p in products if str(p["id"]) == user_choice]
+            matching_product = matching_products[0]
+            if matching_product["id"] == user_choice:
+                print("This product does not exist...Please double check ID")
+                continue
+            #total_price = total_price + matching_product["price"]
+            #print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + to_usd(matching_product["price"]))
+            user_choices.append(user_choice)
 
 print("--------------------------------")
-#print(user_choices)
+print("Welcome to Prime Health Foods")
+print("WWW.PRIME-HEALTH.COM")
+print("--------------------------------")
+print("Checkout at:", currentTime)
+print("--------------------------------")
 
 for user_choice in user_choices:
     matching_products = [p for p in products if str(p["id"]) == user_choice]
     matching_product = matching_products[0]
     total_price = total_price + matching_product["price"]
-    print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + str(matching_product["price"]))
+    print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
 
 
-#print("TOTAL PRICE: " + (str(total_price)))
+
 print("--------------------------------")
 print("SUBTOTAL: " + to_usd((total_price)))
-TAX = TAX_RATE
-print("TAX:", TAX) # Need an approach to multiply tax rate by total price
-print("TOTAL:") # Need an approach to add TAX amount and subtotal together
+
+def multiply(x,y):
+    return x*y
+subtotal=total_price
+taxrate=float(TAX_RATE)
+print("TAX:",to_usd(multiply(subtotal,taxrate)))
+SalesTax_s = multiply(subtotal,taxrate)
+SalesTax = (SalesTax_s)
+
+#This piece below reflects the printing of the total price
+
+def calculate_total(salestax, totalprice):
+    return salestax + totalprice
+total = calculate_total(SalesTax, total_price)
+
+print("TOTAL:", to_usd(total))
 print("--------------------------------")
 print("SEE YOU AGAIN SOON!! STAY HEALTHY, STAY PRIMED!!")
 print("--------------------------------")
