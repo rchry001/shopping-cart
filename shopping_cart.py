@@ -59,7 +59,7 @@ while True:
             #product_exists = any(product["id"] == user_choice for product in products)
             #print("This product exists",product_exists)
             #unmatched_products = [p for p in products if str(p["id"]) != user_choice]
-            if float(user_choice) not in range(0,21) or user_choice == "0":
+            if float(user_choice) not in range(0,21) or user_choice == "0" or user_choice == ValueError or user_choice == str:
                 print("This product does not exist...Please double check ID")
                 continue
             matching_products = [p for p in products if str(p["id"]) == user_choice]
@@ -78,7 +78,6 @@ for user_choice in user_choices:
     matching_product = matching_products[0]
     total_price = total_price + matching_product["price"]
     print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
-
 
 
 print("--------------------------------")
@@ -102,3 +101,11 @@ print("TOTAL:", to_usd(total))
 print("--------------------------------")
 print("SEE YOU AGAIN SOON!! STAY HEALTHY, STAY PRIMED!!")
 print("--------------------------------")
+
+#to print receipt information to separate file stored in receipts folder
+Selected_product = ("SECLECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
+import os
+save_path = '/Users/rubinelchrysostome/Desktop/shopping-cart/receipts'
+file_name = str(currentTime);".txt"
+with open(os.path.join('/Users/rubinelchrysostome/Desktop/shopping-cart/receipts', file_name), "w") as file: # "w" means "open the file for writing"
+    file.write(str(Selected_product))
