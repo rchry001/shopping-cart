@@ -59,7 +59,7 @@ while True:
             #product_exists = any(product["id"] == user_choice for product in products)
             #print("This product exists",product_exists)
             #unmatched_products = [p for p in products if str(p["id"]) != user_choice]
-            if float(user_choice) not in range(0,21) or user_choice == "0" or user_choice == ValueError or user_choice == str:
+            if float(user_choice) not in range(0,21) or user_choice == "0" or user_choice == ValueError:
                 print("This product does not exist...Please double check ID")
                 continue
             matching_products = [p for p in products if str(p["id"]) == user_choice]
@@ -109,3 +109,12 @@ save_path = '/Users/rubinelchrysostome/Desktop/shopping-cart/receipts'
 file_name = str(currentTime);".txt"
 with open(os.path.join('/Users/rubinelchrysostome/Desktop/shopping-cart/receipts', file_name), "w") as file: # "w" means "open the file for writing"
     file.write(str(Selected_product))
+    file.write("\n")
+    file.write("TAX")
+    file.write(" ")
+    file.write(to_usd(SalesTax))
+    file.write("\n")
+    file.write("TOTAL")
+    file.write(" ")
+    file.write(to_usd(total))
+
