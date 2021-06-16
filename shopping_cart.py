@@ -3,13 +3,19 @@
 import datetime
 currentTime = datetime.datetime.now()
 
+#this section covers the import for datetime, env variables, and send email functions
+
 import os
+from dotenv import load_dotenv
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
-import dotenv
+load_dotenv()
+#dotenv.load_dotenv()
 
-dotenv.load_dotenv()
 TAX_RATE = os.getenv("TAX_RATE")
 
+# this section covers the convert to USD function
 def to_usd(my_price):
     """
     Converts a numeric value to usd-formatted string, for printing and display purposes.
@@ -21,7 +27,6 @@ def to_usd(my_price):
     Returns: $4,000.44
     """
     return f"${my_price:,.2f}" #> $12,000.71
-
 
 
 products = [
@@ -77,7 +82,7 @@ for user_choice in user_choices:
     matching_products = [p for p in products if str(p["id"]) == user_choice]
     matching_product = matching_products[0]
     total_price = total_price + matching_product["price"]
-    print("SECLECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
+    print("SELECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
 
 
 print("--------------------------------")
@@ -103,7 +108,7 @@ print("SEE YOU AGAIN SOON!! STAY HEALTHY, STAY PRIMED!!")
 print("--------------------------------")
 
 #to print receipt information to separate file stored in receipts folder
-Selected_product = ("SECLECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
+Selected_product = ("SELECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
 import os
 save_path = '/Users/rubinelchrysostome/Desktop/shopping-cart/receipts'
 file_name = str(currentTime);".txt"
@@ -117,4 +122,33 @@ with open(os.path.join('/Users/rubinelchrysostome/Desktop/shopping-cart/receipts
     file.write("TOTAL")
     file.write(" ")
     file.write(to_usd(total))
+
+# This below section reflects the code to email some form to customer
+
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
+SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
+
+client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+print("CLIENT:", type(client))
+
+subject = "Your Receipt from Prime Health Foods"
+
+html_content = Selected_product
+print("HTML:", html_content)
+
+# FYI: we'll need to use our verified SENDER_ADDRESS as the `from_email` param
+# ... but we can customize the `to_emails` param to send to other addresses
+message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS, subject=subject, html_content=html_content)
+
+try:
+    response = client.send(message)
+
+    print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
+    print(response.status_code) #> 202 indicates SUCCESS
+    print(response.body)
+    print(response.headers)
+
+except Exception as err:
+    print(type(err))
+    print(err)
 
