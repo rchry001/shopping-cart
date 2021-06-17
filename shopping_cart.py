@@ -84,6 +84,15 @@ for user_choice in user_choices:
     total_price = total_price + matching_product["price"]
     print("SELECTED PRODUCT: "+ matching_product["name"] + " " + to_usd((matching_product["price"])))
 
+#this below function is an attempt to mirror the above function...
+#...in order to use the defined function to print to receipt and email
+def multiple_product_selection(p):
+    return p
+for user_choice in user_choices:
+    matching_productsmatching_products = [p for p in products if str(p["id"]) == user_choice]
+    matching_product = matching_products[0]
+
+
 
 print("--------------------------------")
 print("SUBTOTAL: " + to_usd((total_price)))
@@ -113,7 +122,7 @@ import os
 save_path = '/Users/rubinelchrysostome/Desktop/shopping-cart/receipts'
 file_name = str(currentTime);".txt"
 with open(os.path.join('/Users/rubinelchrysostome/Desktop/shopping-cart/receipts', file_name), "w") as file: # "w" means "open the file for writing"
-    file.write(str(Selected_product))
+    file.write(str(multiple_product_selection(Selected_product)))
     file.write("\n")
     file.write("TAX")
     file.write(" ")
@@ -126,25 +135,34 @@ with open(os.path.join('/Users/rubinelchrysostome/Desktop/shopping-cart/receipts
 # This below section reflects the code to email some form to customer
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
+SENDGRID_TEMPLATE_ID = os.getenv("SENDGRID_TEMPLATE_ID", default="OOPS, please set env var called 'SENDGRID_TEMPLATE_ID'")
 SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
 
-client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+# this must match the test data structure
+template_data = {
+    "total_price_usd": to_usd(total),
+    "human_friendly_timestamp": str(currentTime),
+    "products":products#[
+        #{"id":1, "name": "Product 1"},
+        #{"id":2, "name": "Product 2"},
+        #{"id":3, "name": "Product 3"},
+        #{"id":2, "name": "Product 2"},
+        #{"id":1, "name": "Product 1"}
+    #]
+} # or construct this dictionary dynamically based on the results of some other process :-D
+
+client = SendGridAPIClient(SENDGRID_API_KEY)
 print("CLIENT:", type(client))
 
-subject = "Your Receipt from Prime Health Foods"
-
-html_content = Selected_product
-print("HTML:", html_content)
-
-# FYI: we'll need to use our verified SENDER_ADDRESS as the `from_email` param
-# ... but we can customize the `to_emails` param to send to other addresses
-message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS, subject=subject, html_content=html_content)
+message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS)
+message.template_id = SENDGRID_TEMPLATE_ID
+message.dynamic_template_data = template_data
+print("MESSAGE:", type(message))
 
 try:
     response = client.send(message)
-
-    print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
-    print(response.status_code) #> 202 indicates SUCCESS
+    print("RESPONSE:", type(response))
+    print(response.status_code)
     print(response.body)
     print(response.headers)
 
